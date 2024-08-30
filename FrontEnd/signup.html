@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up Page</title>
+    <link rel="stylesheet" href="signup.css">
+</head>
+<body>
+    <div class="background-image">
+        <img src="./images/bird.webp" alt="Bird Image">
+    </div>
+    <div class="signup-container">
+        <div class="logo">
+            <img src="./images/freelancer-logo.svg" alt="Freelancer Logo">
+        </div>
+        <div class="signup-form">
+            <h2>Create an Account</h2>
+            <form action="#" method="post">
+                <div class="name-fields">
+                    <div class="name-field">
+                        <label for="first-name">First Name</label>
+                        <input type="text" id="first-name" name="first-name" required>
+                    </div>
+                    <div class="name-field">
+                        <label for="last-name">Last Name</label>
+                        <input type="text" id="last-name" name="last-name" required>
+                    </div>
+                </div>
+
+                <label for="email">Enter Email</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+                <label class="policy">
+                    <input type="checkbox" name="policy"> 
+                    I agree to the Freelancer User Agreement and Privacy Policy.
+                </label>
+                <button type="submit" class="signup-button" >Sign Up</button>
+                <!-- <button type="submit" class="signup-button" onclick="window.location.href='index.html';">Sign Up</button> -->
+                <hr class="divider">
+
+                <p class="login-link">Already have an account? <a href="login.html">Log In</a></p>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
