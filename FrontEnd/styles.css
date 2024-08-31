@@ -26,6 +26,7 @@ nav .logo a {
     color: white;
     text-decoration: none;
     margin-left: 20px;
+    font-weight: bold;
 }
 
 nav .nav-links {
@@ -43,6 +44,34 @@ nav .nav-links li a {
     color: white;
     text-decoration: none;
     font-size: 16px;
+}
+
+/* Button styling for "Post a Project" */
+.post-project-btn {
+    background-color: #e60278;
+    color: white;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.post-project-btn:hover {
+    background-color: #b0025d; /* Slightly darker shade for hover effect */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .nav-links {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .logo {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
 }
 
 /* Hero Section */

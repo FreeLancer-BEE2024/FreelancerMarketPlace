@@ -1,0 +1,125 @@
+/* General Styles */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Container */
+.container {
+    display: flex;
+    /* max-width: 1200px; */
+    /* width: 100%; */
+    justify-content: space-between;
+    /* padding: 20px; */
+    box-sizing: border-box;
+}
+
+/* Content Area */
+.content {
+    /* width: 50%; */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.logo img {
+    max-width: 150px;
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 57px;
+    color: #12151b;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+h1 span{
+    color: #e60278;
+}
+
+.subheading {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* Textarea Styles */
+textarea#project-description {
+    align-items: center;
+    background: var(--color-bg-input, #fff);
+    border: 1px solid var(--color-border-light, #ddd);
+    border-radius: 4px;
+    color: var(--color-foreground, #333);
+    display: block;
+    max-height: inherit;
+    padding: 12px;
+    resize: vertical;
+    transition: all 0.2s ease-out, border-color 0.3s ease-out;
+    /* width: 100%; */
+    scrollbar-color: var(--color-border-light, #ddd) var(--color-bg-mid, #f4f4f4);
+    font-size: 18px;
+    line-height: 1.55;
+    margin-bottom: 20px;
+}
+
+/* Next Button */
+.next-button {
+    background-color: #e60278;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-bottom: 20px;
+    width: fit-content;
+    padding-left: 48px;
+    padding-right: 48px;
+    font-weight: bold;
+}
+
+.next-button:hover {
+    background-color: #c70265;
+}
+
+/* Info Text */
+.info-text {
+    font-size: 18px;
+    color: black;
+    margin-bottom: 20px;
+    font-weight: 400;
+}
+
+/* Tick Info */
+.tick-info {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: black;
+    margin-bottom: 10px;
+}
+
+.tick-icon {
+    fill: #e60278;
+    margin-right: 10px;
+}
+
+/* Bird Image */
+.bird-image {
+    width: 50%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.bird-image img {
+    max-width: 100%;
+    height: auto;
+}

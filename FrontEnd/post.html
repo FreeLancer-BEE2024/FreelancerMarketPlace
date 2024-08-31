@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post a Project</title>
+    <link rel="stylesheet" href="post.css">
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <div class="logo">
+                <img src="./images/freelancer-logo.svg" alt="Freelancer Logo">
+            </div>
+            <h1>Tell us what you need <span>done.</span></h1>
+            <p class="subheading">We'll guide you to create the perfect brief. The more detail the better.</p>
+            <textarea id="project-description">Enter a few bullet points or a full description</textarea>
+            <button class="next-button">Next</button>
+            <p class="info-text">Freelancer connects over 76 million professionals globally</p>
+            <div class="tick-info">
+                <svg class="tick-icon" width="24" height="24" viewBox="0 0 24 24">
+                    <path d="M12,2 C6.48,2 2,6.48 2,12 C2,17.52 6.48,22 12,22 C17.52,22 22,17.52 22,12 C22,6.48 17.52,2 12,2 Z M10,17 L5,12 L6.41,10.59 L10,14.17 L17.59,6.58 L19,8 L10,17 Z" fill-rule="nonzero"></path>
+                </svg>
+                <span>From ₹100 tasks to ₹100 million projects, we've got you covered</span>
+            </div>
+            <div class="tick-info">
+                <svg class="tick-icon" width="24" height="24" viewBox="0 0 24 24">
+                    <path d="M12,2 C6.48,2 2,6.48 2,12 C2,17.52 6.48,22 12,22 C17.52,22 22,17.52 22,12 C22,6.48 17.52,2 12,2 Z M10,17 L5,12 L6.41,10.59 L10,14.17 L17.59,6.58 L19,8 L10,17 Z" fill-rule="nonzero"></path>
+                </svg>
+                <span>Connect with skilled freelancers in seconds</span>
+            </div>
+            <div class="tick-info">
+                <svg class="tick-icon" width="24" height="24" viewBox="0 0 24 24">
+                    <path d="M12,2 C6.48,2 2,6.48 2,12 C2,17.52 6.48,22 12,22 C17.52,22 22,17.52 22,12 C22,6.48 17.52,2 12,2 Z M10,17 L5,12 L6.41,10.59 L10,14.17 L17.59,6.58 L19,8 L10,17 Z" fill-rule="nonzero"></path>
+                </svg>
+                <span>Only pay freelancers once you are happy with thier work</span>
+            </div>
+        </div>
+        <div class="bird-image">
+            <img src="./images/bird.webp" alt="Bird Image">
+        </div>
+    </div>
+
+    <!-- JavaScript to handle placeholder behavior -->
+    <script>
+        const textarea = document.getElementById('project-description');
+
+        // Add event listener to clear placeholder text on focus
+        textarea.addEventListener('focus', function() {
+            if (this.value === 'Enter a few bullet points or a full description') {
+                this.value = '';
+            }
+        });
+
+        // Add event listener to restore placeholder text on blur if no content
+        textarea.addEventListener('blur', function() {
+            if (this.value.trim() === '') {
+                this.value = 'Enter a few bullet points or a full description';
+            }
+        });
+    </script>
+</body>
+</html>

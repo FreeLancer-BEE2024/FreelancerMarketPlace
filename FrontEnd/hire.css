@@ -26,6 +26,7 @@ nav .logo a {
     color: white;
     text-decoration: none;
     margin-left: 20px;
+    font-weight: bold;
 }
 
 nav .nav-links {
