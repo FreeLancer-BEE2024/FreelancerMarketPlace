@@ -161,7 +161,9 @@ const app = express();
 const cors = require('cors');
 const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
-
+const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
+const SECRET_KEY = process.env.SECRET_KEY;
 // Connect to the MongoDB database
 mongoose.connect('mongodb://localhost:27017/mydatabase', { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -180,10 +182,12 @@ app.use(cors({
   methods: ['POST']
 }));
 app.use(express.json());
+app.use(cookieParser()); 
 
 app.post('/api/signup', async (req, res) => {
   try {
     const { firstName, lastName, email, password } = req.body;
+    console.log(firstName, lastName, email, password);
 
     // Validate the input data
     if (!firstName || !lastName || !email || !password) {
@@ -200,11 +204,69 @@ app.post('/api/signup', async (req, res) => {
     await user.save();
 
     // Return a success response with a token (optional)
-    const token = 'some-random-token';
-    res.json({ message: 'User created successfully', token });
+    res.json({ message: 'User created successfully' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Error creating user' });
+  }
+});
+
+
+//login
+app.post('/api/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    // Retrieve user from database
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ message: "Invalid credentials" });
+    }
+
+    // Compare passwords
+    const passwordValid = await bcrypt.compare(password, user.password);
+
+    if (!passwordValid) {
+      return res.status(404).json({ message: "Invalid credentials" });
+    }
+
+    // Generate JWT token
+    const token = jwt.sign({ id: user._id }, '9fde1b4f34c3d7347f3bfbda44f56a99621a9a18109fe76e16d2020ab45483a8', {
+      expiresIn: "1h",
+    });
+    res.cookie('jwtToken', token)// 1 hour in milliseconds
+    
+    res.status(200).json({ token, user_id: user._id });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err.message);
+  }
+});
+
+
+app.get("/verify", async (req, res) => {
+  const token = req.cookies.jwtToken;
+
+  if (!token) {
+    return res.status(401).send("No token provided");
+  }
+
+  try {
+    const decoded = jwt.verify(token, '9fde1b4f34c3d7347f3bfbda44f56a99621a9a18109fe76e16d2020ab45483a8');
+    console.log("decoded", decoded);
+
+    // Fetch user details from MongoDB based on decoded token
+    const user = await User.findById(decoded.id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json(user);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(err.message);
   }
 });
 
