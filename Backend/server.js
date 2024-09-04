@@ -1,157 +1,3 @@
-// const express = require("express");
-// const cors = require("cors");
-// const pool = require("../db");
-// const bcrypt = require("bcryptjs");
-// const jwt = require("jsonwebtoken");
-// require("dotenv").config();
-// const app = express();
-// app.use(cors())
-// app.use(morgan("dev"));
-// app.use(express.json()); // Middleware to parse JSON bodies
-
-// const PORT = process.env.PORT || 3000;
-// app.post("/register", async (req, res) => {
-//   const { email, name, gender, password1, country, contact, budget} = req.body;
-
-//   try {
-//     // Hash password
-//     const hashedPassword = await bcrypt.hash(password1, 10);
-//     try {
-//       // Insert user into database
-//       const userResult = await pool.query(
-//         `INSERT INTO users (email, password) VALUES ($1, $2) RETURNING user_id`,
-//         [email, hashedPassword]
-//       );
-
-//       const userId = userResult.rows[0].user_id;
-//       res.status(201).json({ message: "Welcome onboard!" });
-//     } catch (err) {
-//       // Rollback transaction in case of error
-//       await pool.query("ROLLBACK");
-//       throw err;
-//     }
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json(err.message);
-//   }
-// });
-// app.get("/first", (req, res) =>{
-
-//     data = 5
-
-//     res.status(200).json({data})
-// })
-
-// app.listen(PORT, () => {
-//   console.log(`Server is running on http://localhost:${PORT}`);
-// });
-
-
-//myy
-
-
-
-// const express = require('express');
-// const cors = require('cors');
-// const app = express();
-// const bcrypt = require('bcrypt');
-// const jwt = require('jsonwebtoken');
-// app.use(cors({ origin: 'http://127.0.0.1:5500' }));
-
-// // Connect to your database (e.g., MongoDB, PostgreSQL)
-// const db = require('./db');
-
-// // Middleware to parse JSON bodies
-// app.use(express.json());
-
-// // Signup endpoint
-// app.post('/signup', async (req, res) => {
-//   const { email, password, firstName, lastName } = req.body;
-
-//   // Validate the input data
-//   if (!email || !password || !firstName || !lastName) {
-//     return res.status(400).send({ error: 'Invalid input data' });
-//   }
-
-//   // Hash the password
-//   const hashedPassword = await bcrypt.hash(password, 10);
-
-//   // Create a new user account
-//   const user = await db.createUser({
-//     email,
-//     password: hashedPassword,
-//     firstName,
-//     lastName,
-//   });
-
-//   // Generate a JWT token
-//   const token = jwt.sign({ userId: user.id }, process.env.SECRET_KEY, {
-//     expiresIn: '1h',
-//   });
-
-//   // Send the token back to the client
-//   res.send({ token });
-// });
-
-// // Login endpoint
-// app.post('/login', async (req, res) => {
-//   const { email, password } = req.body;
-
-//   // Validate the input data
-//   if (!email || !password) {
-//     return res.status(400).send({ error: 'Invalid input data' });
-//   }
-
-//   // Find the user account
-//   const user = await db.getUserByEmail(email);
-
-//   // Check the password
-//   const isValidPassword = await bcrypt.compare(password, user.password);
-
-//   if (!isValidPassword) {
-//     return res.status(401).send({ error: 'Invalid password' });
-//   }
-
-//   // Generate a JWT token
-//   const token = jwt.sign({ userId: user.id }, process.env.SECRET_KEY, {
-//     expiresIn: '1h',
-//   });
-
-//   // Send the token back to the client
-//   res.send({ token });
-// });
-
-// // Protected endpoint (requires authentication)
-// app.get('/protected', authenticate, (req, res) => {
-//   res.send({ message: 'Hello, authenticated user!' });
-// });
-
-// // Authentication middleware
-// function authenticate(req, res, next) 
-// {
-
-//   const token = req.header('Authorization');
-
-//   if (!token) {
-//     return res.status(401).send({ error: 'Unauthorized' });
-//   }
-
-//   try {
-//     const decoded = jwt.verify(token, process.env.SECRET_KEY);
-//     req.user = decoded;
-//     next();
-//   } catch (error) {
-//     return res.status(401).send({ error: 'Invalid token' });
-//   }
-// }
-
-// app.listen(3000, () => {
-//   console.log('Server listening on port 3000');
-// });
-
-
-
-
 
 /////////////////////////////////////////
 // server.js
@@ -177,12 +23,28 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 
+
 app.use(cors({
   origin: ['http://localhost:3000', 'http://127.0.0.1:5500'],
   methods: ['POST']
-}));
+  
+  
+}));  
 app.use(express.json());
 app.use(cookieParser()); 
+
+
+
+
+// Start the server
+const port = 3000;
+app.listen(port, () => {
+  console.log(`Server started on port ${port}`);
+});
+
+
+
+
 
 app.post('/api/signup', async (req, res) => {
   try {
@@ -192,7 +54,7 @@ app.post('/api/signup', async (req, res) => {
     // Validate the input data
     if (!firstName || !lastName || !email || !password) {
       return res.status(400).json({ message: 'Invalid input data' });
-    }
+    }  
 
     // Hash the password using bcrypt
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -208,11 +70,10 @@ app.post('/api/signup', async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Error creating user' });
-  }
-});
+  }  
+});  
 
 
-//login
 app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
 
@@ -221,36 +82,35 @@ app.post('/api/login', async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(404).json({ message: "Invalid credentials" });
-    }
+      return res.status(404).json({ message: "User not found" });
+    }  
 
     // Compare passwords
     const passwordValid = await bcrypt.compare(password, user.password);
 
     if (!passwordValid) {
-      return res.status(404).json({ message: "Invalid credentials" });
-    }
+      return res.status(401).json({ message: "Invalid password" }); // Return a JSON response with an error message
+    }  
 
     // Generate JWT token
     const token = jwt.sign({ id: user._id }, '9fde1b4f34c3d7347f3bfbda44f56a99621a9a18109fe76e16d2020ab45483a8', {
       expiresIn: "1h",
-    });
-    res.cookie('jwtToken', token)// 1 hour in milliseconds
+    });  
+    res.cookie('jwtToken', token, { httpOnly: true, maxAge: 3600000 }); // 1 hour in milliseconds
     
     res.status(200).json({ token, user_id: user._id });
   } catch (err) {
     console.log(err);
     res.status(500).json(err.message);
-  }
-});
+  }})  
 
 
-app.get("/verify", async (req, res) => {
+app.get("/api/login", async (req, res) => {
   const token = req.cookies.jwtToken;
 
   if (!token) {
     return res.status(401).send("No token provided");
-  }
+  }  
 
   try {
     const decoded = jwt.verify(token, '9fde1b4f34c3d7347f3bfbda44f56a99621a9a18109fe76e16d2020ab45483a8');
@@ -261,15 +121,148 @@ app.get("/verify", async (req, res) => {
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
-    }
+    }  
 
     res.status(200).json(user);
   } catch (err) {
     console.error(err);
     res.status(500).send(err.message);
+  }  
+});  
+
+
+
+
+
+
+// Define the Work schema
+const workSchema = new mongoose.Schema({
+  title: String,
+  description: String,
+  requirements: String,
+  duration: String,
+  budget: Number
+});  
+
+// Create a new work model
+const Work = mongoose.model('Work', workSchema);
+
+// Define the POST endpoint for creating a new work
+app.post('/api/works', async (req, res) => {
+  try {
+    const { title, description, requirements, duration, budget } = req.body;
+
+    // Validate the input data
+    if (!title || !description || !requirements || !duration || !budget) {
+      return res.status(400).json({ message: 'Invalid input data' });
+    }  
+
+    // Create a new work object
+    const work = new Work({ title, description, requirements, duration, budget });
+
+    // Save the work to the database
+    await work.save();
+
+    // Return a success response
+    res.json({ message: 'Work created successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error creating work' });
+  }  
+});  
+
+// Define the GET endpoint for retrieving all works
+app.get('/api/works', async (req, res) => {
+  try {
+    const works = await Work.find().exec();
+    res.json(works);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error retrieving works' });
+  }  
+});  
+
+// Define the GET endpoint for retrieving a single work by ID
+app.get('/api/works/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+    const work = await Work.findById(id).exec();
+    if (!work) {
+      return res.status(404).json({ message: 'Work not found' });
+    }  
+    res.json(work);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error retrieving work' });
+  }  
+});  
+
+// Define the PUT endpoint for updating a work
+app.put('/api/works/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+    const work = await Work.findById(id).exec();
+    if (!work) {
+      return res.status(404).json({ message: 'Work not found' });
+    }  
+    const { title, description, requirements, duration, budget } = req.body;
+    work.title = title;
+    work.description = description;
+    work.requirements = requirements;
+    work.duration = duration;
+    work.budget = budget;
+    await work.save();
+    res.json({ message: 'Work updated successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error updating work' });
+  }  
+});  
+
+// Define the DELETE endpoint for deleting a work
+app.delete('/api/works/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+    await Work.findByIdAndRemove(id).exec();
+    res.json({ message: 'Work deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error deleting work' });
+  }  
+});  
+
+
+const userReviewSchema = new mongoose.Schema({
+  userId: { type: String }, // or { type: Number } if you want to accept numbers
+  rating: Number,
+  review: String
+});
+
+// Create a new user review model
+const UserReview = mongoose.model('UserReview', userReviewSchema);
+
+// Define the POST endpoint for creating a new user review
+app.post('/api/reviews', async (req, res) => {
+  try {
+    const { userId, rating, review } = req.body;
+
+    // Create a new review document
+    const newReview = new UserReview({
+      userId,
+      rating,
+      review
+    });
+
+    // Save the review document
+    await newReview.save();
+
+    res.status(201).json({ message: 'Review created successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Error creating review' });
   }
 });
 
-app.listen(3000, () => {
-  console.log('Server listening on port 3000');
-});
+
+
+
