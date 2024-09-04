@@ -11,13 +11,15 @@ document.addEventListener('DOMContentLoaded', () => {
         worksContainer.innerHTML = ''; // Clear previous content
         works.forEach(work => {
           const workElement = document.createElement('div');
+          workElement.classList.add('freelancer-card');
           workElement.innerHTML = `
-            <h3>${work.title}</h3>
-            <p>${work.description}</p>
-            <p>Requirements: ${work.requirements}</p>
-            <p>Duration: ${work.duration}</p>
-            <p>Budget: $${work.budget}</p>
-            <button onclick="deleteWork('${work._id}')">Delete</button>
+        <div class="freelancer-card-content">
+          <h3>${work.title}</h3>
+          <p>${work.description}</p>
+          <p>Requirements: ${work.requirements}</p>
+          <p>Duration: ${work.duration}</p>
+          <p>Budget: $${work.budget}</p>
+            <button class="apply-button" onclick="deleteWork('${work._id}')">Delete</button>
           `;
           worksContainer.appendChild(workElement);
         });

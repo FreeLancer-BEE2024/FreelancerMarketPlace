@@ -14,8 +14,31 @@
             </div>
             <h1>Tell us what you need <span>done.</span></h1>
             <p class="subheading">We'll guide you to create the perfect brief. The more detail the better.</p>
-            <textarea id="project-description">Enter a few bullet points or a full description</textarea>
-            <button class="next-button">Next</button>
+
+            <!-- Content from work.html starts here -->
+            <h1>Create a New Work</h1>
+            <form id="workForm">
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" required><br><br>
+
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" required></textarea><br><br>
+
+                <label for="requirements">Requirements:</label>
+                <textarea id="requirements" name="requirements" required></textarea><br><br>
+
+                <label for="duration">Duration:</label>
+                <input type="text" id="duration" name="duration" required><br><br>
+
+                <label for="budget">Budget:</label>
+                <input type="number" id="budget" name="budget" required><br><br>
+
+                <button type="submit">Create Work</button>
+            </form>
+
+            
+            <!-- Content from work.html ends here -->
+
             <p class="info-text">Freelancer connects over 76 million professionals globally</p>
             <div class="tick-info">
                 <svg class="tick-icon" width="24" height="24" viewBox="0 0 24 24">
@@ -33,12 +56,15 @@
                 <svg class="tick-icon" width="24" height="24" viewBox="0 0 24 24">
                     <path d="M12,2 C6.48,2 2,6.48 2,12 C2,17.52 6.48,22 12,22 C17.52,22 22,17.52 22,12 C22,6.48 17.52,2 12,2 Z M10,17 L5,12 L6.41,10.59 L10,14.17 L17.59,6.58 L19,8 L10,17 Z" fill-rule="nonzero"></path>
                 </svg>
-                <span>Only pay freelancers once you are happy with thier work</span>
+                <span>Only pay freelancers once you are happy with their work</span>
             </div>
+            <h2>All Works</h2>
+            <div id="worksContainer" class="card-container"></div>
         </div>
         <div class="bird-image">
             <img src="./images/bird.webp" alt="Bird Image">
         </div>
+        
     </div>
 
     <!-- JavaScript to handle placeholder behavior -->
@@ -59,5 +85,7 @@
             }
         });
     </script>
+
+    <script src="work.js"></script> <!-- Include work.js to handle the work form and list -->
 </body>
 </html>
