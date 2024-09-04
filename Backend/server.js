@@ -25,7 +25,7 @@ const User = mongoose.model('User', userSchema);
 
 app.use(cors({
   origin: ['http://localhost:3000', 'http://127.0.0.1:5500'],
-  methods: ['POST']
+  methods: ['GET', 'POST', 'PUT', 'DELETE']
   
   
 }));  
@@ -221,17 +221,26 @@ app.put('/api/works/:id', async (req, res) => {
   }  
 });  
 
-// Define the DELETE endpoint for deleting a work
+//Delete work
 app.delete('/api/works/:id', async (req, res) => {
   try {
-    const id = req.params.id;
-    await Work.findByIdAndRemove(id).exec();
+    const { id } = req.params;
+
+    // Find and delete the work by its ID
+    const work = await Work.findByIdAndDelete(id);
+
+    if (!work) {
+      return res.status(404).json({ message: 'Work not found' });
+    }
+
     res.json({ message: 'Work deleted successfully' });
   } catch (error) {
-    console.error(error);
+    console.error('Error deleting work:', error);
     res.status(500).json({ message: 'Error deleting work' });
-  }  
-});  
+  }
+});
+
+
 
 
 const userReviewSchema = new mongoose.Schema({
