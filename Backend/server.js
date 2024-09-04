@@ -1,4 +1,3 @@
-
 /////////////////////////////////////////
 // server.js
 // server.js
@@ -55,7 +54,10 @@ app.post('/api/signup', async (req, res) => {
     if (!firstName || !lastName || !email || !password) {
       return res.status(400).json({ message: 'Invalid input data' });
     }  
-
+    const existingUser = await User.findOne({email});
+    if(existingUser) {
+      return res.status(400).jdon({message: 'User already exists'});
+    }
     // Hash the password using bcrypt
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -262,7 +264,3 @@ app.post('/api/reviews', async (req, res) => {
     res.status(500).json({ message: 'Error creating review' });
   }
 });
-
-
-
-
