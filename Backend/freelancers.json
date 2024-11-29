@@ -1,0 +1,46 @@
+[
+  {
+    "id": 1,
+    "role": "freelancer",
+    "firstName": "devin",
+    "lastName": "dew",
+    "email": "devin@gmail.com",
+    "password": "$2b$10$.zCVGp74RgnbDqNnP0RKk.Y1/558tNhSTpBAe6N5XUHgGGri62EKC",
+    "expertise": [
+      "Web Development"
+    ],
+    "workEx": 5,
+    "rates": 30,
+    "reviews": 0,
+    "projectsCompleted": 10
+  },
+  {
+    "id": 2,
+    "role": "freelancer",
+    "firstName": "jack",
+    "lastName": "joe",
+    "email": "jack@gmail.com",
+    "password": "$2b$10$C5xpbDYTbzbr7Xhlx/RmDe1n4SjR3nU1K3kZc9daLWUHjRuC7x9EC",
+    "expertise": [
+      "js",
+      "node.js"
+    ],
+    "workEx": "5 years",
+    "rates": 50,
+    "reviews": 0,
+    "projectsCompleted": 5
+  },
+  {
+    "id": 3,
+    "role": "freelancer",
+    "firstName": "Vansh",
+    "lastName": "Tomer",
+    "email": "tomervansh.b777@gmail.com",
+    "password": "$2b$10$nN0KbrUSg1KRGZPvZueEpulUTPVX.j8UzkdRSbIjAgt6N4OgaVZgq",
+    "expertise": "web development, dsa",
+    "workEx": "32",
+    "rates": "30",
+    "reviews": 0,
+    "projectsCompleted": "33"
+  }
+]

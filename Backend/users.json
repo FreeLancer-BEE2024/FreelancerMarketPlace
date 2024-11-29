@@ -1,0 +1,35 @@
+[
+  {
+    "id": 1,
+    "role": "company",
+    "firstName": "Vansh",
+    "lastName": "Tomer",
+    "email": "zomato@gmail.com",
+    "password": "$2b$10$vtaf63oN2Mzjs0AYq6BbTOG7KNbWqEJRxVcBlFTRuxKvWo2qi0fEK",
+    "companyName": "Zomato",
+    "desc": "Food delivering services",
+    "companyWebsite": "www.zomato.com"
+  },
+  {
+    "id": 2,
+    "role": "company",
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "swiggy@gmail.com",
+    "password": "$2b$10$aWqhGc.G2IczscbdwO7R..HDjR8JO773H2TOcY84bHEy8HiAR/AYe",
+    "companyName": "swiggy",
+    "desc": "Food delivering services",
+    "companyWebsite": "www.swiggy.com"
+  },
+  {
+    "id": 3,
+    "role": "company",
+    "firstName": "Vansh",
+    "lastName": "Tomer",
+    "email": "v@gmail.com",
+    "password": "$2b$10$X4JOq9MZo1mCn2eggFKD2.mxb8/p/QJ38D0OdZFNT7j/5Izy85b4S",
+    "companyName": "alpha",
+    "desc": "desc",
+    "companyWebsite": "https://remotive.com/remote-companies"
+  }
+]

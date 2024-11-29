@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "workId": 2,
+    "workName": "Create a DB Functionalities",
+    "companyName": "Zomato",
+    "counterOffer": null,
+    "freelancerName": "devin dew",
+    "accepted": "yes"
+  },
+  {
+    "id": 2,
+    "workId": 4,
+    "workName": "make my website",
+    "companyName": "Zomato",
+    "counterOffer": null,
+    "freelancerName": "devin dew",
+    "accepted": "yes"
+  }
+]
