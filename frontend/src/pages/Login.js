@@ -1,129 +1,4 @@
 
-// // import React, { useState } from "react";
-// // import axios from "axios";
-
-// // const Login = () => {
-// //   const [credentials, setCredentials] = useState({ email: "", password: "" });
-
-// //   const handleChange = (e) => {
-// //     const { name, value } = e.target;
-// //     setCredentials({ ...credentials, [name]: value });
-// //   };
-
-// //   const handleSubmit = async (e) => {
-// //     e.preventDefault();
-// //     try {
-// //       const response = await axios.post("http://localhost:3000/login", credentials, {
-// //         withCredentials: true, // To include cookies with the request
-// //       });
-
-// //       alert(response.data.message);
-// //     } catch (error) {
-// //       console.error("Error logging in:", error);
-// //       if (error.response) {
-// //         alert("Error logging in: " + error.response.data.message);
-// //       } else {
-// //         alert("An unknown error occurred.");
-// //       }
-// //     }
-// //   };
-
-// //   return (
-// //     <form onSubmit={handleSubmit}>
-// //       <h2>Login</h2>
-// //       <input
-// //         type="email"
-// //         name="email"
-// //         placeholder="Email"
-// //         value={credentials.email}
-// //         onChange={handleChange}
-// //         required
-// //       />
-// //       <input
-// //         type="password"
-// //         name="password"
-// //         placeholder="Password"
-// //         value={credentials.password}
-// //         onChange={handleChange}
-// //         required
-// //       />
-// //       <button type="submit">Login</button>
-// //     </form>
-// //   );
-// // };
-
-// // export default Login;
-
-
-// // import React, { useState } from "react";
-// // import axios from "axios";
-// // import { useNavigate } from "react-router-dom"; // Import useNavigate from React Router
-
-// // const Login = () => {
-// //   const [credentials, setCredentials] = useState({ email: "", password: "" });
-// //   const navigate = useNavigate(); // Initialize the useNavigate hook
-
-// //   const handleChange = (e) => {
-// //     const { name, value } = e.target;
-// //     setCredentials({ ...credentials, [name]: value });
-// //   };
-
-// //   const handleSubmit = async (e) => {
-// //     e.preventDefault();
-// //     try {
-// //       const response = await axios.post("http://localhost:3000/login", credentials, {
-// //         withCredentials: true, // To include cookies with the request
-// //       });
-
-// //       alert(response.data.message);
-
-// //       // Assuming the response contains the role of the logged-in user
-// //       const userRole = response.data.role; // You should get the role from the response
-
-// //       if (userRole === "freelancer") {
-// //         // Redirect to freelancer dashboard
-// //         navigate("/freelancer-dashboard");
-// //       } else if (userRole === "company") {
-// //         // Redirect to company dashboard
-// //         navigate("/company-dashboard");
-// //       }
-// //     } catch (error) {
-// //       console.error("Error logging in:", error);
-// //       if (error.response) {
-// //         alert("Error logging in: " + error.response.data.message);
-// //       } else {
-// //         alert("An unknown error occurred.");
-// //       }
-// //     }
-// //   };
-
-// //   return (
-// //     <form onSubmit={handleSubmit}>
-// //       <h2>Login</h2>
-// //       <input
-// //         type="email"
-// //         name="email"
-// //         placeholder="Email"
-// //         value={credentials.email}
-// //         onChange={handleChange}
-// //         required
-// //       />
-// //       <input
-// //         type="password"
-// //         name="password"
-// //         placeholder="Password"
-// //         value={credentials.password}
-// //         onChange={handleChange}
-// //         required
-// //       />
-// //       <button type="submit">Login</button>
-// //     </form>
-// //   );
-// // };
-
-// // export default Login;
-
-
 
 // import React, { useState } from "react";
 // import axios from "axios";
@@ -140,12 +15,12 @@
 //         setError(null);
 
 //         try {
-//             const response = await axios.post("http://localhost:3000/login", { email, password });
-//             const { role } = response.data.user;
+//             // Make the login request
+//             const response = await axios.post("http://localhost:3000/login", { email, password }, {
+//                 withCredentials: true // Ensures cookies are sent with the request
+//             });
 
-//             // Save token to localStorage or context for future requests
-//             localStorage.setItem("token", response.data.token);
-//             localStorage.setItem("role", role);
+//             const { role } = response.data.user;
 
 //             // Redirect based on role
 //             if (role === "freelancer") {
@@ -187,9 +62,6 @@
 //     );
 // };
 
-// export default Login;
-
-
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -198,56 +70,131 @@ const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null);
+        setLoading(true);
 
         try {
-            // Make the login request
-            const response = await axios.post("http://localhost:3000/login", { email, password }, {
-                withCredentials: true // Ensures cookies are sent with the request
-            });
+            const response = await axios.post(
+                "http://localhost:3000/login",
+                { email, password },
+                { withCredentials: true }
+            );
 
             const { role } = response.data.user;
 
-            // Redirect based on role
             if (role === "freelancer") {
                 navigate("/freelancer-dashboard");
             } else if (role === "company") {
                 navigate("/company-dashboard");
+            } else {
+                throw new Error("Invalid user role");
             }
         } catch (err) {
-            setError(err.response?.data || "Something went wrong");
+            setError(err.response?.data?.message || "Invalid email or password");
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
-        <div>
-            <h2>Login</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Email:</label>
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-                </div>
-                <div>
-                    <label>Password:</label>
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                </div>
-                {error && <p style={{ color: "red" }}>{error}</p>}
-                <button type="submit">Login</button>
-            </form>
+        <div
+            className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-500 to-indigo-600"
+            style={{
+                fontFamily: "'Arial', sans-serif",
+            }}
+        >
+            <div
+                style={{
+                    maxWidth: "400px",
+                    padding: "20px",
+                    border: "1px solid #ccc",
+                    borderRadius: "8px",
+                    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                    backgroundColor: "white",
+                    width: "100%",
+                }}
+            >
+                <h2 style={{ textAlign: "center", marginBottom: "20px" }}>Login</h2>
+                <form onSubmit={handleSubmit}>
+                    <div style={{ marginBottom: "15px" }}>
+                        <label
+                            htmlFor="email"
+                            style={{
+                                display: "block",
+                                marginBottom: "5px",
+                                fontWeight: "bold",
+                            }}
+                        >
+                            Email:
+                        </label>
+                        <input
+                            type="email"
+                            id="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                            style={{
+                                width: "100%",
+                                padding: "10px",
+                                fontSize: "16px",
+                                border: "1px solid #ccc",
+                                borderRadius: "4px",
+                            }}
+                        />
+                    </div>
+                    <div style={{ marginBottom: "15px" }}>
+                        <label
+                            htmlFor="password"
+                            style={{
+                                display: "block",
+                                marginBottom: "5px",
+                                fontWeight: "bold",
+                            }}
+                        >
+                            Password:
+                        </label>
+                        <input
+                            type="password"
+                            id="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                            style={{
+                                width: "100%",
+                                padding: "10px",
+                                fontSize: "16px",
+                                border: "1px solid #ccc",
+                                borderRadius: "4px",
+                            }}
+                        />
+                    </div>
+                    {error && (
+                        <p style={{ color: "red", marginBottom: "15px" }}>{error}</p>
+                    )}
+                    <button
+                        type="submit"
+                        disabled={loading}
+                        style={{
+                            width: "100%",
+                            padding: "10px",
+                            fontSize: "16px",
+                            backgroundColor: loading ? "#ccc" : "#007bff",
+                            color: "#fff",
+                            border: "none",
+                            borderRadius: "4px",
+                            cursor: loading ? "not-allowed" : "pointer",
+                            fontWeight: "bold",
+                        }}
+                    >
+                        {loading ? "Logging in..." : "Login"}
+                    </button>
+                </form>
+            </div>
         </div>
     );
 };
