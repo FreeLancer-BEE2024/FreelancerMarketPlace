@@ -76,6 +76,55 @@ exports.readMyCounterWorks = async (req, res) => {
   }
 };
 
+exports.acceptOrRejectCounterWorks = async (req, res) => {
+  const user = req.user;
+  const { id } = req.params;  // Changed from workId to id to match route param
+  const { status } = req.body; // Changed from accepted to status to match frontend
+
+  try {
+    // Fixed the query syntax
+    const counterWork = await Accepted.findOne({
+      workId: id,
+      companyName: user.companyDetails.companyName,
+      accepted: false,
+      counterOffer: { $ne: null }
+    });
+
+    if (!counterWork) {
+      return res.status(404).json({ message: "Counter work not found" });
+    }
+
+    if (status === 'accepted') {
+      const work = await Work.findById(id);
+      if (!work) {
+        return res.status(404).json({ message: "Work not found" });
+      }
+
+      // Set the final price to the counter offer amount
+      counterWork.accepted = true;
+      counterWork.price = counterWork.counterOffer;
+      work.isAccepted = true;
+
+      await Promise.all([
+        work.save(),
+        counterWork.save()
+      ]);
+
+      return res.status(200).json({ message: "Counter work accepted" });
+    } 
+    else if (status === 'rejected') {
+      // Delete the counter offer instead of updating it
+      await Accepted.findByIdAndDelete(counterWork._id);
+      return res.status(200).json({ message: "Counter work rejected" });
+    }
+
+    return res.status(400).json({ message: "Invalid status provided" });
+  } catch (error) {
+    console.error('Accept or Reject Counter Works Error:', error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
 exports.chatBot = (req, res) => {
   const input = req.body.input;
   console.log("Received input:", input); // Log the received input

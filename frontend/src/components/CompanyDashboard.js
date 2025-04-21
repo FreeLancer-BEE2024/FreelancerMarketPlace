@@ -87,6 +87,46 @@ const CompanyDashboard = () => {
     }
   };
 
+  const handleAcceptCounter = async (workId) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:3000/company/counter/${workId}/response`,
+        { status: 'accepted' },
+        { withCredentials: true }
+      );
+
+      if (response.status === 200) {
+        alert('Counter offer accepted successfully!');
+        fetchCounterOffers(); // Refresh the list
+      }
+    } catch (error) {
+      console.error('Error accepting counter offer:', error);
+      alert(error.response?.data?.message || 'Error accepting counter offer');
+    }
+  };
+
+  const handleRejectCounter = async (workId) => {
+    if (!window.confirm('Are you sure you want to reject this counter offer?')) {
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        `http://localhost:3000/company/counter/${workId}/response`,
+        { status: 'rejected' },
+        { withCredentials: true }
+      );
+
+      if (response.status === 200) {
+        alert('Counter offer rejected successfully!');
+        fetchCounterOffers(); // Refresh the list
+      }
+    } catch (error) {
+      console.error('Error rejecting counter offer:', error);
+      alert(error.response?.data?.message || 'Error rejecting counter offer');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Navbar */}
@@ -190,7 +230,20 @@ const CompanyDashboard = () => {
                         <span className="text-sm font-medium mr-2">From:</span>
                         <span className="text-sm text-blue-600 font-semibold">{offer.freelancerName}</span>
                       </div>
-                      <span className="text-sm text-yellow-600 font-medium">Pending</span>
+                      <div className="flex space-x-2">
+                        <button
+                          onClick={() => handleAcceptCounter(offer.workId)}
+                          className="px-3 py-1 bg-green-500 text-white text-sm rounded hover:bg-green-600 transition-colors"
+                        >
+                          Accept
+                        </button>
+                        <button
+                          onClick={() => handleRejectCounter(offer.workId)}
+                          className="px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600 transition-colors"
+                        >
+                          Reject
+                        </button>
+                      </div>
                     </div>
                   </div>
                 ))}
